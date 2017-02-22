@@ -23,6 +23,7 @@ angular.module('todomvc')
 		// Monitor the current route for changes and adjust the filter accordingly.
 		$scope.$on('$routeChangeSuccess', function () {
 			var status = $scope.status = $routeParams.status || '';
+			// -_- legibility
 			$scope.statusFilter = (status === 'active') ?
 				{ completed: false } : (status === 'completed') ?
 				{ completed: true } : {};
@@ -39,6 +40,7 @@ angular.module('todomvc')
 			}
 
 			$scope.saving = true;
+			// -_- no error catching
 			store.insert(newTodo)
 				.then(function success() {
 					$scope.newTodo = '';
@@ -73,10 +75,12 @@ angular.module('todomvc')
 			todo.title = todo.title.trim();
 
 			if (todo.title === $scope.originalTodo.title) {
+				// -_- what does this do ?
 				$scope.editedTodo = null;
 				return;
 			}
 
+			// -_- legibility - no error catching
 			store[todo.title ? 'put' : 'delete'](todo)
 				.then(function success() {}, function error() {
 					todo.title = $scope.originalTodo.title;
