@@ -34,16 +34,20 @@ angular.module('todomvc')
 			),
 
 			clearCompleted: function () {
+				// -_- DRY : could be a property of store
 				var originalTodos = store.todos.slice(0);
 
+				// arrow function would be more legible
 				var incompleteTodos = store.todos.filter(function (todo) {
 					return !todo.completed;
 				});
 
 				angular.copy(incompleteTodos, store.todos);
-
+				
+				// -_- are we sure this deletes what it should?
 				return store.api.delete(function () {
 					}, function error() {
+						// -_- DRY : could be a method of the store
 						angular.copy(originalTodos, store.todos);
 					});
 			},
@@ -102,10 +106,12 @@ angular.module('todomvc')
 			_saveToLocalStorage: function (todos) {
 				localStorage.setItem(STORAGE_ID, JSON.stringify(todos));
 			},
+			
+			// -_- no error handling for localstorage API (could be common between the 2 factories?)
 
 			clearCompleted: function () {
 				var deferred = $q.defer();
-
+				
 				var incompleteTodos = store.todos.filter(function (todo) {
 					return !todo.completed;
 				});
